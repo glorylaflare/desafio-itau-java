@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.DoubleSummaryStatistics;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -26,5 +27,13 @@ public class TransactionService {
     public void deleteAll() {
         transactions.clear();
         log.info("Todas as transações foram removidas.");
+    }
+
+    public DoubleSummaryStatistics getStatistics() {
+        OffsetDateTime offsetDateTime = OffsetDateTime.now();
+        return transactions.stream()
+                //.filter(t -> t.dataHora().isAfter(offsetDateTime.minusSeconds(60)))
+                .mapToDouble(TransactionDTO::valor)
+                .summaryStatistics();
     }
 }
