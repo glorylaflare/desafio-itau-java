@@ -15,12 +15,13 @@ import java.time.OffsetDateTime;
 public class TransactionController {
 
     @Autowired
-    private TransactionService service;
+    private TransactionService service = new TransactionService();
 
     //Post
     @PostMapping
     public ResponseEntity<Void> createTranstion(@Valid @RequestBody TransactionDTO dto) {
         if(dto.dataHora().isAfter(OffsetDateTime.now()) || dto.valor() <= 0) return ResponseEntity.unprocessableEntity().build();
+        if(dto.valor() == null) return ResponseEntity.badRequest().build();
 
         service.createTransaction(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
