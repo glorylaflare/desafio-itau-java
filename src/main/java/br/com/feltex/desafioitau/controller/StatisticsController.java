@@ -15,11 +15,11 @@ import java.util.DoubleSummaryStatistics;
 public class StatisticsController {
 
     @Autowired
-    private TransactionService service;
+    TransactionService service;
 
     //Get
     @GetMapping
-    private ResponseEntity<StatisticDTO> getStatistics() {
+    public ResponseEntity<StatisticDTO> getStatistics() {
         DoubleSummaryStatistics statistics = service.getStatistics();
         return ResponseEntity.ok(new StatisticDTO(statistics));
     }
